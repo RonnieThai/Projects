@@ -22,5 +22,22 @@ print(books.shape)
 print(ratings.shape)
 print(users.shape)
 
-#isna function detects missing value 
-books.isna().sum()
+# Checks for missing values
+print("\nMissing values in books DataFrame:")
+print(books.isna().sum())
+
+# Checks for rows where the author is missing 
+print("\nRows with missing Book-Author:")
+missing_authors = books[books['Book-Author'].isna()]
+print(missing_authors)
+
+#Locate the missing values of books
+books.iloc[118033]['Book-Title']
+books.iloc[187689]['Book-Title']
+
+#Add the missing author to those books
+books.iloc[118033]['Book-Title'] = 'Downes, Larissa Anne'
+
+#Get rid of index 187689 due to no author 
+books = books.drop(index=187689)
+books = books.reset_index(drop=True)
