@@ -1,3 +1,5 @@
+#Read the data from the csv files of User, Rating, and Book
+#Fix any missing or incorrect data 
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -56,3 +58,21 @@ print("\n", ratings.isnull().sum())
 print(books.duplicated().sum())
 print(users.duplicated().sum())
 print(ratings.duplicated().sum())
+
+#Perform EDA
+print(books.head)
+print(books.dtypes)
+
+#>> FIX 67 - 74 IF ANY PROBLEM OCCURS 
+#Fix incorrect year of publication
+#books.loc[209538]
+#print(books.loc[209538, 'Book-Title'])
+#books.loc[209538, 'Year-Of-Publication']
+
+#books.loc[220731]
+
+#books.loc[221678]
+
+books['Year-Of-Publication'] = books['Year-Of-Publication'].astype('int64')
+books['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
+
