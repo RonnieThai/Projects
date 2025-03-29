@@ -87,12 +87,20 @@ books['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
 #Check to see if any publish dates are incorrect
 print(books[books['Year-Of-Publication']>2021][['Book-Title', 'Year-Of-Publication', 'Publisher', 'Book-Author']])
 
-print(books.loc[37487, 'Book-Title'])
-print(books.loc[55676, 'Book-Title'])
-print(books.loc[80264, 'Book-Title'])
-print(books.loc[118294, 'Book-Title'])
-print(books.loc[192992, 'Book-Title'])
+#>>>> Used to display full title of books to get publish date
+# print(books.loc[37487, 'Book-Title'])
+# print(books.loc[55676, 'Book-Title'])
+# print(books.loc[80264, 'Book-Title'])
+# print(books.loc[118294, 'Book-Title'])
+# print(books.loc[192992, 'Book-Title'])
 
 books.loc[[37487, 55676, 78168, 80264, 97826, 116053, 118294, 192992, 228172, 240168, 246841, 255408, 260973]
           , 'Year-Of-Publication'] = [1991, 2005, 2003, 2003, 2001, 1981, 1995, 2023, 1987, 1996, 1925, 1937, 1991]
 books.loc[37487, 'Book-Author'] = 'Bruce Coville'
+
+print(books['Year-Of-Publication'].value_counts().sort_index().loc[:20])
+books['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
+
+#Check the index of num. of books published each year 
+books_years_rational = books[books['Year-Of-Publication']!=0]['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
+print(books_years_rational)
