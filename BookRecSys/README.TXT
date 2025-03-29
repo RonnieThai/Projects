@@ -1,5 +1,8 @@
 Explaination of program and features 
 
+>>Libaries used:
+pandas, seaborn, numpy, warnings, matplotlib, os, nltk
+
 >> FILEREADER.PY
 Usage of loc instead of iloc since iloc onyl accepts integer indices 
 
