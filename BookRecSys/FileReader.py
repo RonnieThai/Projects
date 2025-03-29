@@ -73,6 +73,26 @@ print(books.dtypes)
 
 #books.loc[221678]
 
-books['Year-Of-Publication'] = books['Year-Of-Publication'].astype('int64')
+invalid_years = books[pd.to_numeric(books['Year-Of-Publication'], errors='coerce').isna()]
+print("Invalid Year-Of-Publication entries:")
+print(invalid_years[['Book-Title', 'Year-Of-Publication']])
+
+books['Year-Of-Publication'] = pd.to_numeric(books['Year-Of-Publication'], errors='coerce').fillna(0).astype('int64')
+
+print("\nAfter fixing, unique years are:")
+print(books['Year-Of-Publication'].unique())
+
 books['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
 
+#Check to see if any publish dates are incorrect
+print(books[books['Year-Of-Publication']>2021][['Book-Title', 'Year-Of-Publication', 'Publisher', 'Book-Author']])
+
+print(books.loc[37487, 'Book-Title'])
+print(books.loc[55676, 'Book-Title'])
+print(books.loc[80264, 'Book-Title'])
+print(books.loc[118294, 'Book-Title'])
+print(books.loc[192992, 'Book-Title'])
+
+books.loc[[37487, 55676, 78168, 80264, 97826, 116053, 118294, 192992, 228172, 240168, 246841, 255408, 260973]
+          , 'Year-Of-Publication'] = [1991, 2005, 2003, 2003, 2001, 1981, 1995, 2023, 1987, 1996, 1925, 1937, 1991]
+books.loc[37487, 'Book-Author'] = 'Bruce Coville'
