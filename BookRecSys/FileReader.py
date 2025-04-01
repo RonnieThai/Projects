@@ -107,5 +107,12 @@ def get_cleaned_data():
     #Check the index of num. of books published each year 
     books_years_rational = books[books['Year-Of-Publication']!=0]['Year-Of-Publication'].value_counts().sort_index(ascending=False).loc[:20]
     print(books_years_rational)
+    
+    books[books['Book-Author'].duplicated()]
+    #Find the number of unique authors (non repeating)
+    len(books['Book-Author'].unique())
+    
+    author_book_count = books['Book-Author'].value_counts()
+    author_book_count.head(20)
 
     return books, ratings, users, books_years_rational
