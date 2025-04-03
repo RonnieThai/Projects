@@ -114,5 +114,9 @@ def get_cleaned_data():
     
     author_book_count = books['Book-Author'].value_counts()
     author_book_count.head(20)
+    author_book_count =books[books['Book-Author']!= 'Not Applicable (NA)']['Book-Author'].value_counts()
+    
+    author_book_count_top50 = author_book_count.sort_values(ascending=False).head(50)
+    author_book_count_top50.head(10)
 
-    return books, ratings, users, books_years_rational
+    return books, ratings, users, books_years_rational, author_book_count_top50
