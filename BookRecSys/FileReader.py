@@ -118,5 +118,11 @@ def get_cleaned_data():
     
     author_book_count_top50 = author_book_count.sort_values(ascending=False).head(50)
     author_book_count_top50.head(10)
+    
+    publisher = books['Publisher'].value_counts()
+    publisher
+    
+    publisher_top50 = publisher.sort_values(ascending=False)[:51]
+    publisher_top50
 
-    return books, ratings, users, books_years_rational, author_book_count_top50
+    return books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50

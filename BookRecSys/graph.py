@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #grab the data from FileReader.py and import it into graph.py
-books, ratings, users, books_year_rational, author_book_count_top50 = get_cleaned_data()
+books, ratings, users, books_year_rational, author_book_count_top50, publisher_top50 = get_cleaned_data()
 
 def books_published():
     #Create graph
@@ -50,4 +50,26 @@ def top_authors():
     plt.show()
     plt.close()
     
-top_authors()
+def top_publisher():
+    cool = sns.color_palette("cool", n_colors=len(publisher_top50.values))
+    
+    plt.figure(figsize=(12,12))
+    
+    sns_plot = sns.barplot(y=publisher_top50.index,
+                           x=publisher_top50.values, palette=cool, hue=publisher_top50.index, dodge=False, legend=False, orient='h' )
+    
+    for i, values in enumerate(publisher_top50.values):
+        sns_plot.text(values, i, int(values), ha="left", va="center", color='black', fontsize=8)
+        
+    plt.ylabel("Publisher Names")
+    plt.xlabel("Number of Books Published")
+    plt.title("Top 50 Publisher With Most Amount of Published Books")
+    
+    plt.yticks(rotation=0, fontsize=10)
+    
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+   
+#top_authors()
+top_publisher()
