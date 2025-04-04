@@ -124,5 +124,44 @@ def get_cleaned_data():
     
     publisher_top50 = publisher.sort_values(ascending=False)[:51]
     publisher_top50
+    
+    #merging and cleaning up Rating + Books data
+    ratings.head()
+    
+    print(books.shape)
+    print(ratings.shape)
+    
+    bookRating = pd.merge(ratings, books, on="ISBN")
+    bookRating.head()
+    bookRating.shape
+    
+    bookRating.drop(columns=['Image-URL-S', 'Image-URL-M', 'Image-URL-J'],inplace=True)
+    bookRating.head()
+    
+    #Calulate the average rating for books
+    averageRating = pd.DataFrame(bookRating.groupby('ISBN')['Book-Rating'].mean().round(1))
+    averageRating.reset_index(inplace=True)
+    averageRating.head()
+    
+    averageRating.shape
+    averageRating.rename(columns={'Book-Rating':'Average-Rating'}, inplace=True)
+    averageRating.head()
+    
+    averageRatingf = pd.merge(bookRating, averageRating, on='ISBN')
+    averageRatingf.head()
+    averageRatingf.shape
+    
+    averageRatingOnly = averageRatingf[['ISBN', 'Average-Rating']]
+    averageRatingOnly.head()
+    
+    averageRatingUnique = averageRatingOnly[['ISBN', 'Average-Rating']].drop_duplicates(subset=['ISBN'])
+    averageRatingUnique.head()
+    
+    ratingBooks = pd.merge(books, averageRatingUnique, on='ISBN')
+    ratingBooks.shape
+    
+    books_with_rating = books_with_rating[['ISBN', 'Book-Title', 'Book-Author', 'Average-Rating', 'Year-Of-Publication',
+                                           'Publisher', 'Image-URL-S', 'Image-URL-M', 'Image-URL-L']]
+    books_with_rating.head()
 
     return books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50
