@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #grab the data from FileReader.py and import it into graph.py
-books, ratings, users, books_year_rational, author_book_count_top50, publisher_top50 = get_cleaned_data()
+books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings = get_cleaned_data()
 
 def books_published():
     #Create graph
     plt.figure(figsize=(16, 9))
 
     #Filter the graph
-    filtered_books = books_year_rational[books_year_rational.index >= 1900]
+    filtered_books = books_years_rational[books_years_rational.index >= 1900]
 
     bars = plt.bar(x=filtered_books.index, height=filtered_books.values)
 
@@ -71,5 +71,31 @@ def top_publisher():
     plt.show()
     plt.close()
    
+def average_ratings():
+    cool = sns.color_palette("cool", n_colors=len(ratings_sorted.values))
+    
+    plt.figure(figsize=(24,24))
+    ratings_sorted_0_excluded = ratings_sorted.drop(index= 0.0).sort_index(ascending=False)
+    sns_plot = sns.barplot(x=ratings_sorted_0_excluded.index,
+                           y=ratings_sorted_0_excluded.values,
+                           palette=cool, dodge=False, legend=False)
+    
+    plt.xticks(rotation=90)
+    plt.xlabel("Number of Books")
+    plt.ylabel("Average Rating")
+    plt.title("Average Rating")
+    plt.tight_layout()
+    plt.show()
+
+def top_rated_books():
+    plt.figure(figsize=(12,10))
+    plt.pie(top20_ratings, labels=top20_ratings.index, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
+    plt.title("Distribution of rated books", pad=20)
+    plt.subplots_adjust(left=0.1, right=0.9, top=0.85, bottom=0.1)
+    plt.tight_layout()
+    plt.show()
+    
 #top_authors()
-top_publisher()
+#top_publisher()
+#average_ratings()
+top_rated_books()

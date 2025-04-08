@@ -135,7 +135,9 @@ def get_cleaned_data():
     bookRating.head()
     bookRating.shape
     
-    bookRating.drop(columns=['Image-URL-S', 'Image-URL-M', 'Image-URL-J'],inplace=True)
+    columns_to_drop = ['Image-URL-S', 'Image-URL-M', 'Image-URL-J']
+    existing_columns = [col for col in columns_to_drop if col in bookRating.columns]
+    bookRating.drop(columns=existing_columns, inplace=True)
     bookRating.head()
     
     #Calulate the average rating for books
@@ -160,8 +162,16 @@ def get_cleaned_data():
     ratingBooks = pd.merge(books, averageRatingUnique, on='ISBN')
     ratingBooks.shape
     
-    books_with_rating = books_with_rating[['ISBN', 'Book-Title', 'Book-Author', 'Average-Rating', 'Year-Of-Publication',
+    books_with_rating = ratingBooks[['ISBN', 'Book-Title', 'Book-Author', 'Average-Rating', 'Year-Of-Publication',
                                            'Publisher', 'Image-URL-S', 'Image-URL-M', 'Image-URL-L']]
     books_with_rating.head()
+    
+    books_with_rating.sort_values(by=['Average-Rating'], ascending=False).head(30)
+    
+    ratings_sorted = books_with_rating['Average-Rating'].value_counts().sort_index(ascending=False)
+    print(ratings_sorted)
+    books_with_rating['Average-Rating'].value_counts(normalize=True).round(4).sort_index(ascending=False)
+    
+    top20_ratings = books_with_rating['Average-Rating'].value_counts().drop(index=0.0).sort_values(ascending=False).head(20)
 
-    return books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50
+    return books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings
