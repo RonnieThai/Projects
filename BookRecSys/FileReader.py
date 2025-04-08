@@ -172,6 +172,11 @@ def get_cleaned_data():
     print(ratings_sorted)
     books_with_rating['Average-Rating'].value_counts(normalize=True).round(4).sort_index(ascending=False)
     
+    print(users.shape)
+    users.head()
+    len(users.Location.unique)
+    users.Location.value_counts()
+    
     top20_ratings = books_with_rating['Average-Rating'].value_counts().drop(index=0.0).sort_values(ascending=False).head(20)
 
     return books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings
