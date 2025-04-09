@@ -20,6 +20,10 @@ def popularity_based_system():
             return filtered.head(top_n)
         return filtered
     
+    def calc_weighted_rating(row, avgRating, numOfRatings, minThres, defRating):
+        weighted_rating = ((row[avgRating] * row[numOfRatings]) + (minThres * defRating)) / (row[numOfRatings] + minThres)
+        return weighted_rating
+        
     ratings_books_merged = ratings.merge(books, on='ISBN')
     print(ratings_books_merged.head())
     ratings_books_merged.shape
@@ -44,3 +48,7 @@ def popularity_based_system():
     popularity_df_above_100 = filter_by_rating_threshold(popularity_df, 100)
     popularity_df_above_250 = filter_by_rating_threshold(popularity_df, 250)
     
+    top_popular_books = filter_by_rating_threshold(popularity_df, 100, sort=True, top_n=5)
+    print(top_popular_books)
+    
+popularity_based_system()
