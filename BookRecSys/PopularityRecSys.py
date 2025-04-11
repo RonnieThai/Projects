@@ -51,4 +51,41 @@ def popularity_based_system():
     top_popular_books = filter_by_rating_threshold(popularity_df, 100, sort=True, top_n=5)
     print(top_popular_books)
     
+    #Number of Ratings above 100
+    popularity_df_above_100 = filter_by_rating_threshold(popularity_df, 100)
+    popularity_df_above_100['Weighted-Rating'] = popularity_df_above_100.apply(
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 100, 5),
+        axis=1
+    )
+    
+    top_weighted_books = popularity_df_above_100.sort_values('Weighted-Rating', ascending=False).head(20)
+    #print(top_weighted_books)
+    
+    # Number of Rating above 50
+    popularity_df_above_50 = filter_by_rating_threshold(popularity_df, 50)
+    popularity_df_above_50['Weighted-Rating'] = popularity_df_above_50.apply(
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 50, 5),
+        axis=1
+    )
+    
+    popularity_df_above_50.sort_values('Weighted-Rating', ascending=False).head(20)
+    
+    #Number of Rating above 250
+    popularity_df_above_250 = filter_by_rating_threshold(popularity_df, 250)
+    popularity_df_above_250['Weighted-Rating'] = popularity_df_above_250.apply(
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 250, 5),
+        axis=1
+    )
+    
+    popularity_df_above_250.sort_values('Weighted-Rating', ascending=False).head(20)
+    
+    #merge any rating above 250 with the data frame
+    popularity_df_merge = pd.merge(popularity_df_above_100, books, on='Book-Title').drop_duplicates('Book-Title', keep='first')
+    popularity_df_merge = popularity_df_merge.drop(columns=['Image-URL-S', 'Image-URL-L'])
+    print(popularity_df_merge.shape)
+    popularity_df_merge.sort_values('Weighted-Rating', ascending=False).head(10)
+    
+    #Show the top rated books
+    ratings_books_merged.head()
+    
 popularity_based_system()
