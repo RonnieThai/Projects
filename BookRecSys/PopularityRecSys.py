@@ -88,4 +88,30 @@ def popularity_based_system():
     #Show the top rated books
     ratings_books_merged.head()
     
+    #Filter the users with 200 votes
+    users_rating_count = ratings_books_merged.groupby('User-ID').count()['ISBN']
+    users_rating_count = users_rating_count.sort_values(ascending=False).reset_index()
+    users_rating_count.rename(columns={'ISBN':'No-of-Books-Rated'}, inplace=True)
+    print(users_rating_count.shape)
+    users_rating_count.head()
+    
+    users_200 = users_rating_count[users_rating_count['No-of-Books-Rated']>=200]
+    print(users_200.shape)
+    
+    books_with_users_200 = pd.merge(users_200, ratings_books_merged, on='User-ID')
+    print(books_with_users_200.shape)
+    books_with_users_200.head()    
+    
+    #Filter books with more than 50 ratings 
+    print(ratings_books_merged.shape)
+    ratings_books_merged.head()
+    
+    books_rating_count = ratings_books_merged.groupby('Book-Title').count()['ISBN'].sort_values(ascending=False).reset_index()
+    books_rating_count.rename(columns={'ISBN' : 'Number-of-Rated-Books'}, inplace=True) #If doesnt work change 'Number-of-Rated-Books' to 'Number-of-Book-Ratings'
+    books_rating_count.head()
+    
+    books_ratings_50 = books_rating_count[books_rating_count['Number-of-Book-Rating']>=50] #If doesnt work change 'Number-of-Rated-Books' to 'Number-of-Book-Ratings'
+    print(books_ratings_50)
+    books_ratings_50.head()
+    
 popularity_based_system()
