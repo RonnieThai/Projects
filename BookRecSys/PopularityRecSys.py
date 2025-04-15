@@ -6,6 +6,7 @@ import warnings
 import matplotlib.pyplot as plt
 import os
 import nltk
+from sklearn.metrics.pairwise import cosine_similarity
 
 #grab the data from FileReader.py and import it into PopularityRecSys.py
 books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings = get_cleaned_data()
@@ -114,4 +115,57 @@ def popularity_based_system():
     print(books_ratings_50)
     books_ratings_50.head()
     
+    #Filter
+    filtered_books = pd.merge(books_ratings_50, books_with_users_200, on="Book-Title")
+    print(filtered_books)
+    filtered_books.head()
+    
+    popular_books = filtered_books.groupby('Book-Title').count().reset_index()
+    popular_books = popular_books['Book-Title']
+    popular_books = books[books['Book-Title'].isin(popular_books)]
+    popular_books = popular_books.copy()
+    popular_books.drop_duplicates(subset=['Book-Title'], inplace=True, keep='first')
+    popular_books()
+    
+    pt = filtered_books.pivot_table(index='Book-Title', columns='User-ID', values='Book-Ratings')
+    pt.fillna(0, inplace=True)
+    pt
+    
+    #Model Creation
+    #Turn the books to vectors
+    similarites = cosine_similarity(pt)
+    similarites
+    similarites.shape
+    
+    #Retrieve index
+    np.where(pt.index=='1984')
+    np.where(pt.index=='stardust')[0][0]
+    
+    #Index to find array
+    #First movie in the index table
+    print(similarites[0])
+    similarites[np.where(pt.index=='stardust')[0][0]]
+    
+    #sort the array recieved
+    list(enumerate(similarites[0]))
+    
+    #Sort without index
+    sorted(list(enumerate(similarites[0])), key=lambda x: x[1], reverse=True)
+    
+    #Remove the first item we selected from top5
+    sorted(list(enumerate(similarites[0])), key=lambda x: x[1], reverse=True)[1:6]
+    
+    #display the top 5
+    for book in sorted(list(enumerate(similarites[0])), key=lambda x: x[1], reverse=True)[1:6]:
+        print(book[0])
+        
+    for book in sorted(list(enumerate(similarites[0])), key=lambda x: x[1], reverse=True)[1:6]:
+        print(pt.index[book[0]])
+        
+    if 'hamkmfa' in pt.index:
+        np.where(pt.index=='hamkda')[0][0]
+    else:
+        print('Book Not Found')
+    
+        
 popularity_based_system()
