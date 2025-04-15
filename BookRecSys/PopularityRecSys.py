@@ -6,7 +6,7 @@ import warnings
 import matplotlib.pyplot as plt
 import os
 import nltk
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.metrics.pairwise import cosine_similarity
 
 #grab the data from FileReader.py and import it into PopularityRecSys.py
 books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings = get_cleaned_data()
@@ -166,6 +166,6 @@ def popularity_based_system():
         np.where(pt.index=='hamkda')[0][0]
     else:
         print('Book Not Found')
-    
+          
         
 popularity_based_system()
