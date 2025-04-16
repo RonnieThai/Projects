@@ -1,6 +1,6 @@
 # Projects
 My Personal Projects
 
->AQI system
->Real time currency converter
->Book Recommendation system 
+>AQI system (Finished)
+>Real time currency converter (Finished)
+>Book Recommendation system (In-Progress)
