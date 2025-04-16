@@ -6,7 +6,7 @@ import warnings
 import matplotlib.pyplot as plt
 import os
 import nltk
-#from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity
 
 #grab the data from FileReader.py and import it into PopularityRecSys.py
 books, ratings, users, books_years_rational, author_book_count_top50, publisher_top50, ratings_sorted, top20_ratings = get_cleaned_data()
@@ -55,7 +55,7 @@ def popularity_based_system():
     #Number of Ratings above 100
     popularity_df_above_100 = filter_by_rating_threshold(popularity_df, 100)
     popularity_df_above_100['Weighted-Rating'] = popularity_df_above_100.apply(
-        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 100, 5),
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Ratings', 100, 5),
         axis=1
     )
     
@@ -65,7 +65,7 @@ def popularity_based_system():
     # Number of Rating above 50
     popularity_df_above_50 = filter_by_rating_threshold(popularity_df, 50)
     popularity_df_above_50['Weighted-Rating'] = popularity_df_above_50.apply(
-        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 50, 5),
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Ratings', 50, 5),
         axis=1
     )
     
@@ -74,7 +74,7 @@ def popularity_based_system():
     #Number of Rating above 250
     popularity_df_above_250 = filter_by_rating_threshold(popularity_df, 250)
     popularity_df_above_250['Weighted-Rating'] = popularity_df_above_250.apply(
-        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Rating', 250, 5),
+        lambda x: calc_weighted_rating(x, 'Average-Rating', 'Number-of-Ratings', 250, 5),
         axis=1
     )
     
@@ -111,13 +111,13 @@ def popularity_based_system():
     books_rating_count.rename(columns={'ISBN' : 'Number-of-Rated-Books'}, inplace=True) #If doesnt work change 'Number-of-Rated-Books' to 'Number-of-Book-Ratings'
     books_rating_count.head()
     
-    books_ratings_50 = books_rating_count[books_rating_count['Number-of-Book-Rating']>=50] #If doesnt work change 'Number-of-Rated-Books' to 'Number-of-Book-Ratings'
+    books_ratings_50 = books_rating_count[books_rating_count['Number-of-Rated-Books']>=50] #If doesnt work change 'Number-of-Rated-Books' to 'Number-of-Book-Ratings'
     print(books_ratings_50)
     books_ratings_50.head()
     
     #Filter
     filtered_books = pd.merge(books_ratings_50, books_with_users_200, on="Book-Title")
-    print(filtered_books)
+    print(filtered_books.columns)
     filtered_books.head()
     
     popular_books = filtered_books.groupby('Book-Title').count().reset_index()
@@ -125,11 +125,11 @@ def popularity_based_system():
     popular_books = books[books['Book-Title'].isin(popular_books)]
     popular_books = popular_books.copy()
     popular_books.drop_duplicates(subset=['Book-Title'], inplace=True, keep='first')
-    popular_books()
+    print(popular_books)
     
-    pt = filtered_books.pivot_table(index='Book-Title', columns='User-ID', values='Book-Ratings')
+    pt = filtered_books.pivot_table(index='Book-Title', columns='User-ID', values='Book-Rating')
     pt.fillna(0, inplace=True)
-    pt
+    print(pt)
     
     #Model Creation
     #Turn the books to vectors
