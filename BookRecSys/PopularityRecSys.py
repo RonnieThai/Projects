@@ -166,6 +166,8 @@ def popularity_based_system():
         np.where(pt.index=='hamkda')[0][0]
     else:
         print('Book Not Found')
+        
+    return pt, similarites
           
         
 popularity_based_system()
