@@ -6,13 +6,19 @@
 
     <div class="h-screen flex flex-col justify-center items-center">
 
-        <h1 class="text-8x1 font-bold">404</h1>
+        <h1 class="text-8x1 font-bold">
+            404
+        </h1>
 
-        <p class="text-4x1 font-medium">Page Not Found</p>
+        <p class="text-4x1 font-medium">
+            Page Not Found
+        </p>
 
         {% if not user.is_authenticated %}
 
-        <a href="{% url 'dashboard:index' %}" class="mt-4 text-xl text-blue-600 hover:underline">Go Back Home</a>
+        <a href="{% url 'dashboard:index' %}" class="mt-4 text-xl text-blue-600 hover:underline">
+            Go Back Home
+        </a>
 
         {% endif %}
 
