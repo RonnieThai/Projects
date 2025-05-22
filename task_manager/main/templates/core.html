@@ -35,12 +35,56 @@
             
         </svg>
 
-    </header> 
+        <div class="hidden w-full md:flex items-center justify-between text-slate-400 text-base md:pt-0">
 
+            <nav>
 
+                <ul class="md:flex items-center justify-between text-slate-400 text-base md:pt-0">
+
+                    <li><a class="md:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-[#2f5170] hover:text-slate-50"
+                            href="{% url 'dashboard:index' %}">Dashboard</a></li>
+
+                    <li><a class="md:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-[#2f5170] hover:text-slate-50"
+                            href="{% url 'reporting:tasks_history' %}">History</a></li>
+                    
+                    {% if user.is_authenticated %}
+
+                    <li><a class="md:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-red-600 hover:text-red-600"
+                            href="{% url 'accounts:logout' %}">Logout</a></li> 
+                            
+                    {% else %}
+
+                    <li><a class="md:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-[#2f5170] hover:text-blue-500"
+                            href="{% url 'accounts:login' %}">Login</a></li>
+
+                    <li><a class="md:p-4 py-3 px-0 block border-b-2 border-transparent hover:border-[#2f5170] hover:text-green-500"
+                            href="{% url 'accounts:signup' %}">Register</a></li>
+
+                    {% endif %}
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+    
+    {% block content %}
+
+    {% endblock %}
+
+    <script>
+        const button = document.querySelector('#menu-button');
+        const menu = document.querySelector('#menu')
+
+        button.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+
+        });
+
+    </script>
 
 </body>
-
-
 
 </html>
