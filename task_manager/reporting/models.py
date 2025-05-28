@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from dashboards.models import Category
+from dashboard.models import Category
 
-class CompleteTask(models.Model):
+class CompletedTask(models.Model):
     title = models.CharField(max_length=255, default="Task")
     created_at = models.DateTimeField(null=True, blank=True)
     complete_at = models.DateTimeField(null=True, blank=True)
@@ -10,4 +10,4 @@ class CompleteTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     class Meta:
-        verbose_name_plural = "Complete Task"
+        verbose_name_plural = "Completed Task"

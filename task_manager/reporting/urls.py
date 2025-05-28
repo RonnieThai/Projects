@@ -3,7 +3,7 @@ from . import views
 
 app_name = 'reporting'
 
-urlpatterns = {
-    path('tasks_history/', views.task_history, name='task_history'),
+urlpatterns = [
+    path('history/', views.task_history, name='history'),
     path('clear_history5364/', views.clear_history, name='clear_history'),
-}
+]

@@ -10,7 +10,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-    class meta:
+    class Meta:
         verbose_name_plural = "Categories"
         
         
@@ -26,7 +26,9 @@ class Task(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     
-    category = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
-        return self.title + ' | ' + "Complete" if self.completed else "To do"
+        return self.title + ' | ' + "Completed" if self.completed else "To do"
